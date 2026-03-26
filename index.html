@@ -20,7 +20,7 @@
 
   <header class="fixed responsive">
     <nav>
-      <h5 class="max">✦ HoyoLab Info</h5>
+      <h5 class="max">✦ HoyoLab Info (Genshin)</h5>
       <label class="switch icon">
         <input type="checkbox" id="themeToggle">
         <span><i id="themeIcon">light_mode</i></span>
@@ -32,7 +32,7 @@
     <form hx-get="https://extraordinary-willabella-tahubulat500-39903554.koyeb.app/genshin" hx-target="#content" hx-swap="innerHTML" handlebars-template="foo">
       <nav class="group split">
         <div class="left-round field label border">
-          <input type="number" name="uid" required aria-label="input uid">
+          <input type="number" name="uid" required minlength="9" maxlength="10" aria-label="input uid">
           <label>UID</label>
         </div>
         <button type="submit" class="right-round square large">
