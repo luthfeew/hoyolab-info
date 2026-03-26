@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google" content="notranslate">
+  <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
+  <title>HoyoLab Info</title>
+  <link href="https://cdn.jsdelivr.net/npm/beercss@4.0.19/dist/cdn/beer.min.css" rel="stylesheet">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@4.0.19/dist/cdn/beer.min.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@1.1.4/dist/cdn/material-dynamic-colors.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js" integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/htmx-ext-client-side-templates@2.0.0/client-side-templates.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+</head>
+
+<body hx-ext="client-side-templates">
+
+  <header class="fixed">
+    <nav>
+      <h5 class="max">✦ HoyoLab Info</h5>
+      <label class="switch icon">
+        <input type="checkbox" id="themeToggle">
+        <span><i id="themeIcon">light_mode</i></span>
+      </label>
+    </nav>
+  </header>
+
+  <main class="responsive">
+    <form hx-get="https://extraordinary-willabella-tahubulat500-39903554.koyeb.app/genshin" hx-target="#content" hx-swap="innerHTML" handlebars-template="foo">
+      <nav class="group split">
+        <div class="left-round field label border">
+          <input type="number" name="uid" required aria-label="input uid">
+          <label>UID</label>
+        </div>
+        <button type="submit" class="right-round square large">
+          <i>keyboard_arrow_right</i>
+        </button>
+      </nav>
+      <progress class="htmx-indicator"></progress>
+    </form>
+    <section id="content"></section>
+  </main>
+
+  <template id="foo">
+
+
+    <!-- ======== PROFILE HEADER ======== -->
+    <div class="space"></div>
+    <article class="primary-container round">
+      <div class="grid no-space middle-align">
+        <div class="s12 m3 l2 center-align">
+          <img src="{{info.profile_picture_icon.circle}}" class="circle extra" alt="Profile Picture">
+        </div>
+        <div class="s12 m9 l10 padding">
+          <div class="grid no-space middle-align">
+            <div class="s12 m8">
+              <h4 class="no-margin">{{info.nickname}}</h4>
+              <p class="no-margin italic">{{info.signature}}</p>
+              <div class="space"></div>
+              <div class="grid no-space">
+                <div class="s6 m4">
+                  <span class="bold">UID</span><br>
+                  <span>{{uid}}</span>
+                </div>
+                <div class="s6 m4">
+                  <span class="bold">AR Level</span><br>
+                  <span>{{info.level}}</span>
+                </div>
+                <div class="s6 m4">
+                  <span class="bold">World Level</span><br>
+                  <span>{{info.worldLevel}}</span>
+                </div>
+
+                {{#unless has_hoyolab}}
+                <div class="s6 m4">
+                  <span class="bold">Total Achievements</span><br>
+                  <span>{{info.finishAchievementNum}}</span>
+                </div>
+                {{#if info.towerStarIndex}}
+                <div class="s6 m4">
+                  <span class="bold">Spiral Abyss</span><br>
+                  <span>{{info.towerFloorIndex}}-{{info.towerLevelIndex}} | {{info.towerStarIndex}}★</span>
+                </div>
+                {{/if}}
+                {{#if info.theaterActIndex}}
+                <div class="s6 m4">
+                  <span class="bold">Imaginarium Theater</span><br>
+                  <span>{{info.theaterActIndex}} | {{info.theaterStarIndex}}★</span>
+                </div>
+                {{/if}}
+                {{#if info.stygianIndex}}
+                <div class="s6 m4">
+                  <span class="bold">Stygian Onslaught</span><br>
+                  <span>D{{info.stygianIndex}} | {{info.stygianSeconds}}s</span>
+                </div>
+                {{/if}}
+                {{/unless}}
+
+              </div>
+            </div>
+            <div class="s12 m4">
+              <img src="{{info.namecard.full}}" class="responsive round" alt="Namecard" style="max-height:80px;object-fit:cover" onerror="this.style.display='none'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    <div class="space"></div>
+
+    {{#if has_hoyolab}}
+    <!-- ======== TABS ======== -->
+    <div class="tabs scroll">
+      <a class="active" data-ui="#tab-overview"><i>dashboard</i><span class="hide m">Overview</span></a>
+      <a data-ui="#tab-characters"><i>groups</i><span class="hide m">Characters</span></a>
+      <a data-ui="#tab-abyss"><i>fitness_center</i><span class="hide m">Abyss</span></a>
+      <a data-ui="#tab-exploration"><i>map</i><span class="hide m">Exploration</span></a>
+      <a data-ui="#tab-home"><i>cottage</i><span class="hide m">Serenitea</span></a>
+    </div>
+
+    <!-- ======================================================
+       TAB 1: OVERVIEW
+       ====================================================== -->
+    <div class="page active" id="tab-overview">
+      <div class="space"></div>
+      <h5><i>bar_chart</i> Game Statistics</h5>
+
+      <div class="grid">
+        <!-- Achievements -->
+        <div class="s6 m4 l3">
+          <article class="round border center-align">
+            <i class="large primary-text">emoji_events</i>
+            <h4>{{data.stats.achievement_number}}</h4>
+            <p class="small-text">Achievements</p>
+          </article>
+        </div>
+        <!-- Active Days -->
+        <div class="s6 m4 l3">
+          <article class="round border center-align">
+            <i class="large secondary-text">calendar_month</i>
+            <h4>{{data.stats.active_day_number}}</h4>
+            <p class="small-text">Active Days</p>
+          </article>
+        </div>
+        <!-- Characters -->
+        <div class="s6 m4 l3">
+          <article class="round border center-align">
+            <i class="large tertiary-text">groups</i>
+            <h4>{{data.stats.avatar_number}}</h4>
+            <p class="small-text">Characters</p>
+          </article>
+        </div>
+        <!-- Full Fetter -->
+        <div class="s6 m4 l3">
+          <article class="round border center-align">
+            <i class="large secondary-text">favorite</i>
+            <h4>{{data.stats.full_fetter_avatar_num}}</h4>
+            <p class="small-text">Max Friendship</p>
+          </article>
+        </div>
+        <!-- Waypoints -->
+        <div class="s6 m4 l3">
+          <article class="round border center-align">
+            <i class="large tertiary-text">location_on</i>
+            <h4>{{data.stats.way_point_number}}</h4>
+            <p class="small-text">Waypoints</p>
+          </article>
+        </div>
+        <!-- Domains -->
+        <div class="s6 m4 l3">
+          <article class="round border center-align">
+            <i class="large primary-text">door_open</i>
+            <h4>{{data.stats.domain_number}}</h4>
+            <p class="small-text">Domains</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="space"></div>
+      <div class="divider"></div>
+      <div class="space"></div>
+
+      <h5><i>inventory_2</i> Chests Opened</h5>
+      <div class="grid">
+        <div class="s6 m4 l3">
+          <article class="round border center-align">
+            <i class="large">inventory_2</i>
+            <h5>{{data.stats.common_chest_number}}</h5>
+            <p class="small-text">Common</p>
+          </article>
+        </div>
+        <div class="s6 m4 l3">
+          <article class="round border center-align secondary-container">
+            <i class="large">inventory_2</i>
+            <h5>{{data.stats.exquisite_chest_number}}</h5>
+            <p class="small-text">Exquisite</p>
+          </article>
+        </div>
+        <div class="s6 m4 l3">
+          <article class="round border center-align tertiary-container">
+            <i class="large">inventory_2</i>
+            <h5>{{data.stats.precious_chest_number}}</h5>
+            <p class="small-text">Precious</p>
+          </article>
+        </div>
+        <div class="s6 m4 l3">
+          <article class="round border center-align primary-container">
+            <i class="large">inventory_2</i>
+            <h5>{{data.stats.luxurious_chest_number}}</h5>
+            <p class="small-text">Luxurious</p>
+          </article>
+        </div>
+        <div class="s6 m4 l3">
+          <article class="round border center-align">
+            <i class="large">auto_awesome</i>
+            <h5>{{data.stats.magic_chest_number}}</h5>
+            <p class="small-text">Remarkable</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="space"></div>
+      <div class="divider"></div>
+      <div class="space"></div>
+
+      <h5><i>blur_on</i> Oculi Collected</h5>
+      <div class="grid">
+        <div class="s6 m4 l3">
+          <article class="round border">
+            <div class="row">
+              <div class="max">
+                <h6 class="small">Anemoculus</h6>
+                <p class="small-text">Mondstadt</p>
+              </div>
+              <span class="chip round">{{data.stats.anemoculus_number}}</span>
+            </div>
+          </article>
+        </div>
+        <div class="s6 m4 l3">
+          <article class="round border">
+            <nav class="no-space">
+              <div class="max">
+                <h6 class="small">Geoculus</h6>
+                <p class="small-text">Liyue</p>
+              </div>
+              <span class="chip round">{{data.stats.geoculus_number}}</span>
+            </nav>
+          </article>
+        </div>
+        <div class="s6 m4 l3">
+          <article class="round border">
+            <nav class="no-space">
+              <div class="max">
+                <h6 class="small">Electroculus</h6>
+                <p class="small-text">Inazuma</p>
+              </div>
+              <span class="chip round">{{data.stats.electroculus_number}}</span>
+            </nav>
+          </article>
+        </div>
+        <div class="s6 m4 l3">
+          <article class="round border">
+            <nav class="no-space">
+              <div class="max">
+                <h6 class="small">Dendroculus</h6>
+                <p class="small-text">Sumeru</p>
+              </div>
+              <span class="chip round">{{data.stats.dendroculus_number}}</span>
+            </nav>
+          </article>
+        </div>
+        <div class="s6 m4 l3">
+          <article class="round border">
+            <nav class="no-space">
+              <div class="max">
+                <h6 class="small">Hydroculus</h6>
+                <p class="small-text">Fontaine</p>
+              </div>
+              <span class="chip round">{{data.stats.hydroculus_number}}</span>
+            </nav>
+          </article>
+        </div>
+        <div class="s6 m4 l3">
+          <article class="round border">
+            <nav class="no-space">
+              <div class="max">
+                <h6 class="small">Pyroculus</h6>
+                <p class="small-text">Natlan</p>
+              </div>
+              <span class="chip round">{{data.stats.pyroculus_number}}</span>
+            </nav>
+          </article>
+        </div>
+        <div class="s6 m4 l3">
+          <article class="round border">
+            <nav class="no-space">
+              <div class="max">
+                <h6 class="small">Lunoculus</h6>
+                <p class="small-text">Nod-Krai</p>
+              </div>
+              <span class="chip round">{{data.stats.moonoculus_number}}</span>
+            </nav>
+          </article>
+        </div>
+      </div>
+
+      <div class="space"></div>
+      <div class="divider"></div>
+      <div class="space"></div>
+
+      <h5><i>military_tech</i> Special Challenges</h5>
+      <div class="grid">
+        <div class="s12 m6">
+          <article class="round border">
+            <nav>
+              <i>fitness_center</i>
+              <div class="max">
+                <h6 class="small">Spiral Abyss</h6>
+                {{#if info.towerFloorIndex}}
+                <p>Floor {{info.towerFloorIndex}}-{{info.towerLevelIndex}} · {{info.towerStarIndex}} ★</p>
+                {{else}}
+                <p>Not Attempted</p>
+                {{/if}}
+              </div>
+            </nav>
+          </article>
+        </div>
+        <div class="s12 m6">
+          <article class="round border">
+            <nav>
+              <i>theater_comedy</i>
+              <div class="max">
+                <h6 class="small">Imaginarium Theater</h6>
+                {{#if info.theaterActIndex}}
+                <p>Act {{info.theaterActIndex}} · {{info.theaterStarIndex}} ★</p>
+                {{else}}
+                <p>Not Attempted</p>
+                {{/if}}
+              </div>
+            </nav>
+          </article>
+        </div>
+        <div class="s12 m6">
+          <article class="round border">
+            <nav>
+              <i>whatshot</i>
+              <div class="max">
+                <h6 class="small">Stygian Onslaught</h6>
+                {{#if info.stygianIndex}}
+                <p>Diff: {{info.stygianIndex}} · Time: {{info.stygianSeconds}}s</p>
+                {{else}}
+                <p>Not Attempted</p>
+                {{/if}}
+              </div>
+            </nav>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+       TAB 2: CHARACTERS (Showcase + Full List)
+       ====================================================== -->
+    <div class="page" id="tab-characters">
+
+      <div class="space"></div>
+
+      <h5><i>groups</i> Character Collection</h5>
+      <p class="small-text">Top/pinned character data · Total characters owned: <b>{{data.stats.avatar_number}}</b></p>
+      <div class="grid">
+
+        <!-- Characters -->
+        {{#each data.list}}
+        <div class="s12 m6 l4">
+          <article class="round border">
+            <div class="grid no-space middle-align">
+              <div class="s3 center-align">
+                <img src="{{icon}}" class="circle medium" alt="{{name}}" onerror="this.style.display='none'">
+              </div>
+              <div class="s9 padding-left">
+                <div class="grid no-space">
+                  <div class="s8">
+                    <h6 class="small bold no-margin">{{name}}</h6>
+                  </div>
+                  <div class="s4 right-align"><span class="badge round small primary">Lv.{{level}}</span></div>
+                </div>
+                <span class="chip small white-text">{{element}}</span>
+                <span class="chip small">
+                  {{rarity}}★
+                </span>
+                <p class="small-text no-margin">Friendship Lv.{{fetter}} · C{{actived_constellation_num}}</p>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <nav class="no-space middle-align">
+              <img src="{{weapon.icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+              <div class="max padding-left">
+                <p class="small-text bold no-margin">{{weapon.name}}</p>
+                <p class="small-text no-margin">{{weapon.rarity}}★ · Lv.{{weapon.level}} · R{{weapon.affix_level}}</p>
+              </div>
+            </nav>
+          </article>
+        </div>
+        {{/each}}
+
+      </div>
+    </div>
+
+    <!-- ======================================================
+       TAB 3: SPIRAL ABYSS
+       ====================================================== -->
+    <div class="page" id="tab-abyss">
+
+      <div class="space"></div>
+      <h5><i>fitness_center</i> Spiral Abyss</h5>
+
+      <!-- Current & Previous toggle -->
+      <div class="tabs">
+        <a class="active" data-ui="#abyss-current">Current (ID: {{data.abyss.current.schedule_id}})</a>
+        <a data-ui="#abyss-previous">Previous (ID: {{data.abyss.previous.schedule_id}})</a>
+      </div>
+
+      <!-- CURRENT ABYSS -->
+      {{#with data.abyss.current}}
+      <div class="page active" id="abyss-current">
+
+        <div class="space"></div>
+        <div class="grid">
+          <div class="s6 m3">
+            <article class="round border center-align">
+              <i>swords</i>
+              <h5>{{total_battle_times}}</h5>
+              <p class="small-text">Total Battles</p>
+            </article>
+          </div>
+          <div class="s6 m3">
+            <article class="round border center-align">
+              <i>emoji_events</i>
+              <h5>{{total_win_times}}</h5>
+              <p class="small-text">Wins</p>
+            </article>
+          </div>
+          <div class="s6 m3">
+            <article class="round border center-align">
+              <i>terrain</i>
+              <h5>{{max_floor}}</h5>
+              <p class="small-text">Max Floor</p>
+            </article>
+          </div>
+          <div class="s6 m3">
+            <article class="round border center-align">
+              <i>grade</i>
+              <h5>{{total_star}}</h5>
+              <p class="small-text">Total Stars</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="space"></div>
+        <h6>Period: {{start_time}} → {{end_time}}</h6>
+
+        <div class="space"></div>
+        <h6><i>leaderboard</i> Battle Rankings</h6>
+        <div class="grid">
+          <div class="s12 m6">
+            <article class="round border">
+              <p class="bold small-text">Most Used (Reveal)</p>
+              <ul class="list border">
+
+                {{#each ranks.reveal_rank}}
+                <li>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>×{{value}}</span>
+                </li>
+                {{/each}}
+
+              </ul>
+            </article>
+          </div>
+          <div class="s12 m6">
+            <article class="round border">
+
+              <ul class="list border">
+                {{#each ranks.defeat_rank}}
+                <li>
+                  <p class="bold small-text">Most Kills (Defeat)</p>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>{{value}} kills</span>
+                </li>
+                {{/each}}
+                {{#each ranks.damage_rank}}
+                <li>
+                  <p class="bold small-text">Highest Damage</p>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>{{value}}</span>
+                </li>
+                {{/each}}
+                {{#each ranks.take_damage_rank}}
+                <li>
+                  <p class="bold small-text">Damage Taken</p>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>{{value}}</span>
+                </li>
+                {{/each}}
+                {{#each ranks.energy_skill_rank}}
+                <li>
+                  <p class="bold small-text">Most Bursts (Q)</p>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>{{value}}×</span>
+                </li>
+                {{/each}}
+                {{#each ranks.normal_skill_rank}}
+                <li>
+                  <p class="bold small-text">Most Skills (E)</p>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>{{value}}×</span>
+                </li>
+                {{/each}}
+              </ul>
+
+            </article>
+          </div>
+        </div>
+
+        <div class="space"></div>
+        <h6><i>layers</i> Floor Details</h6>
+        <div class="space"></div>
+
+        {{#each floors}}
+        <details>
+          <summary>
+            <nav>
+              <h6 class="small"><b>Floor {{index}}</b></h6>
+              <i>expand_more</i>
+              <span class="chip">{{star}} / {{max_star}} ★</span>
+            </nav>
+          </summary>
+          <div class="padding">
+            <div class="grid">
+
+              {{#each levels}}
+              <div class="s12 m4">
+                <article class="round border">
+                  <p class="bold small-text">Chamber {{index}} — {{star}} ★</p>
+                  <p class="small-text">
+                    <b>Top Half:</b>
+                    {{#each top_half_floor_monster}}
+                    {{name}} (Lv.{{level}}){{#unless @last}}, {{/unless}}
+                    {{/each}}
+                  </p>
+                  <p class="small-text">
+                    <b>Bottom Half:</b>
+                    {{#each bottom_half_floor_monster}}
+                    {{name}} (Lv.{{level}}){{#unless @last}}, {{/unless}}
+                    {{/each}}
+                  </p>
+                </article>
+              </div>
+              {{/each}}
+
+            </div>
+          </div>
+        </details>
+        {{/each}}
+
+      </div>
+      {{/with}}
+
+      <!-- PREVIOUS ABYSS -->
+      {{#with data.abyss.previous}}
+      <div class="page" id="abyss-previous">
+
+        <div class="space"></div>
+        <div class="grid">
+          <div class="s6 m3">
+            <article class="round border center-align">
+              <i>swords</i>
+              <h5>{{total_battle_times}}</h5>
+              <p class="small-text">Total Battles</p>
+            </article>
+          </div>
+          <div class="s6 m3">
+            <article class="round border center-align">
+              <i>emoji_events</i>
+              <h5>{{total_win_times}}</h5>
+              <p class="small-text">Wins</p>
+            </article>
+          </div>
+          <div class="s6 m3">
+            <article class="round border center-align">
+              <i>terrain</i>
+              <h5>{{max_floor}}</h5>
+              <p class="small-text">Max Floor</p>
+            </article>
+          </div>
+          <div class="s6 m3">
+            <article class="round border center-align">
+              <i>grade</i>
+              <h5>{{total_star}}</h5>
+              <p class="small-text">Total Stars</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="space"></div>
+        <h6>Period: {{start_time}} → {{end_time}}</h6>
+
+        <div class="space"></div>
+        <h6><i>leaderboard</i> Battle Rankings</h6>
+        <div class="grid">
+          <div class="s12 m6">
+            <article class="round border">
+              <p class="bold small-text">Most Used (Reveal)</p>
+              <ul class="list border">
+
+                {{#each ranks.reveal_rank}}
+                <li>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>×{{value}}</span>
+                </li>
+                {{/each}}
+
+              </ul>
+            </article>
+          </div>
+          <div class="s12 m6">
+            <article class="round border">
+
+              <ul class="list border">
+                {{#each ranks.defeat_rank}}
+                <li>
+                  <p class="bold small-text">Most Kills (Defeat)</p>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>{{value}} kills</span>
+                </li>
+                {{/each}}
+                {{#each ranks.damage_rank}}
+                <li>
+                  <p class="bold small-text">Highest Damage</p>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>{{value}}</span>
+                </li>
+                {{/each}}
+                {{#each ranks.take_damage_rank}}
+                <li>
+                  <p class="bold small-text">Damage Taken</p>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>{{value}}</span>
+                </li>
+                {{/each}}
+                {{#each ranks.energy_skill_rank}}
+                <li>
+                  <p class="bold small-text">Most Bursts (Q)</p>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>{{value}}×</span>
+                </li>
+                {{/each}}
+                {{#each ranks.normal_skill_rank}}
+                <li>
+                  <p class="bold small-text">Most Skills (E)</p>
+                  <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                  <div class="max">{{name}}</div>
+                  <span>{{value}}×</span>
+                </li>
+                {{/each}}
+              </ul>
+
+            </article>
+          </div>
+        </div>
+
+        <div class="space"></div>
+        <h6><i>layers</i> Floor Details</h6>
+        <div class="space"></div>
+
+        {{#each floors}}
+        <details>
+          <summary>
+            <nav>
+              <h6 class="small"><b>Floor {{index}}</b></h6>
+              <i>expand_more</i>
+              <span class="chip">{{star}} / {{max_star}} ★</span>
+            </nav>
+          </summary>
+          <div class="padding">
+            <div class="grid">
+
+              {{#each levels}}
+              <div class="s12 m4">
+                <article class="round border">
+                  <p class="bold small-text">Chamber {{index}} — {{star}} ★</p>
+                  <p class="small-text">
+                    <b>Top Half:</b>
+                    {{#each top_half_floor_monster}}
+                    {{name}} (Lv.{{level}}){{#unless @last}}, {{/unless}}
+                    {{/each}}
+                  </p>
+                  <p class="small-text">
+                    <b>Bottom Half:</b>
+                    {{#each bottom_half_floor_monster}}
+                    {{name}} (Lv.{{level}}){{#unless @last}}, {{/unless}}
+                    {{/each}}
+                  </p>
+                </article>
+              </div>
+              {{/each}}
+
+            </div>
+          </div>
+        </details>
+        {{/each}}
+
+      </div>
+      {{/with}}
+    </div>
+
+    <!-- ======================================================
+       TAB 4: WORLD EXPLORATION
+       ====================================================== -->
+    <div class="page" id="tab-exploration">
+      <div class="space"></div>
+      <h5><i>public</i> World Exploration</h5>
+
+      <article class="border">
+        <h6>soon gaes, datanya terlalu rumit (╥﹏╥)</h6>
+      </article>
+
+    </div>
+
+    <!-- ======================================================
+       TAB 5: SERENITEA POT (HOMES)
+       ====================================================== -->
+    <div class="page" id="tab-home">
+      <div class="space"></div>
+      <h5><i>cottage</i> Serenitea Pot</h5>
+      <div class="grid">
+        <div class="s6 m3">
+          <article class="round border center-align">
+            <i class="large">grade</i>
+            <h5>{{data.homes.level}}</h5>
+            <p class="small-text">Teapot Level</p>
+          </article>
+        </div>
+        <div class="s6 m3">
+          <article class="round border center-align">
+            <i class="large">people</i>
+            <h5>{{data.homes.visit_num}}</h5>
+            <p class="small-text">Visitors</p>
+          </article>
+        </div>
+        <div class="s6 m3">
+          <article class="round border center-align">
+            <i class="large">favorite</i>
+            <h5>{{data.homes.comfort_num}}</h5>
+            <p class="small-text">Comfort Score</p>
+          </article>
+        </div>
+        <div class="s6 m3">
+          <article class="round border center-align">
+            <i class="large">category</i>
+            <h5>{{data.homes.item_num}}</h5>
+            <p class="small-text">Items Placed</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="space"></div>
+      <article class="round border">
+        <nav>
+          <img src="{{data.homes.comfort_level_icon}}" class="circle medium" alt="" onerror="this.style.display='none'">
+          <div class="max padding-left">
+            <h6>Comfort Level</h6>
+            <p class="small-text">{{data.homes.comfort_level_name}}</p>
+          </div>
+        </nav>
+      </article>
+
+      <div class="space"></div>
+      <h6><i>landscape</i> Unlocked Realms</h6>
+      <div class="grid">
+
+        {{#each data.homes.realms}}
+        <div class="s12 m4">
+          <article class="round border center-align">
+            <img src="{{icon}}" class="responsive round" style="max-height:80px;object-fit:cover" alt="{{name}}" onerror="this.style.display='none'">
+            <p class="bold small-text">{{name}}</p>
+          </article>
+        </div>
+        {{/each}}
+
+      </div>
+    </div>
+
+    {{else}}
+    <article class="border error center-align">
+      <h6>info: data hoyolab orang ini ngga publik ¯\_(ツ)_/¯</h6>
+    </article>
+    {{/if}}
+
+    <div class="space"></div>
+    <footer>
+      <h6 class="center-align small"><i>code</i> with <i>favorite</i> by TahuBulat (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧</h5>
+    </footer>
+
+  </template>
+
+  <script type="module">
+    const theme = localStorage.getItem('theme') || 'dark';
+    await ui('mode', theme);
+
+    const toggle = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    toggle.checked = theme === 'light';
+    icon.textContent = theme === 'light' ? 'light_mode' : 'dark_mode';
+
+    toggle.addEventListener('change', () => {
+      const newTheme = toggle.checked ? 'light' : 'dark';
+      ui('mode', newTheme);
+      icon.textContent = newTheme === 'light' ? 'light_mode' : 'dark_mode';
+      localStorage.setItem('theme', newTheme);
+    });
+  </script>
+
+</body>
+
+</html>
