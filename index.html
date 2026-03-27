@@ -20,7 +20,7 @@
 
   <header class="fixed responsive">
     <nav>
-      <h5 class="max">✦ HoyoLab Info (Genshin)</h5>
+      <h5 class="max">✦ HoyoLab Info</h5>
       <label class="switch icon">
         <input type="checkbox" id="themeToggle">
         <span><i id="themeIcon">light_mode</i></span>
@@ -33,7 +33,7 @@
       <nav class="group split">
         <div class="left-round field label border">
           <input type="number" name="uid" required minlength="9" maxlength="10" aria-label="input uid">
-          <label>UID</label>
+          <label>UID Genshin</label>
         </div>
         <button type="submit" class="right-round square large">
           <i>keyboard_arrow_right</i>
@@ -462,9 +462,9 @@
         <div class="space"></div>
         <h6><i>leaderboard</i> Battle Rankings</h6>
         <div class="grid">
-          <div class="s12 m6">
+          <div class="s12 m5">
             <article class="round border">
-              <p class="bold small-text">Most Used (Reveal)</p>
+              <p class="bold small-text">Most Used</p>
               <ul class="list border">
 
                 {{#each ranks.reveal_rank}}
@@ -478,7 +478,7 @@
               </ul>
             </article>
           </div>
-          <div class="s12 m6">
+          <div class="s12 m7">
             <article class="round border">
 
               <ul class="list border">
@@ -726,15 +726,130 @@
     </div>
 
     <!-- ======================================================
-       TAB 4: WORLD EXPLORATION
-       ====================================================== -->
+   TAB 4: WORLD EXPLORATION
+   ====================================================== -->
     <div class="page" id="tab-exploration">
       <div class="space"></div>
       <h5><i>public</i> World Exploration</h5>
 
-      <article class="border">
-        <h6>soon gaes, datanya terlalu rumit (╥﹏╥)</h6>
-      </article>
+      {{#each data.world_explorations}}
+      <div class="space"></div>
+      <details>
+        <summary>
+          <nav>
+            <img src="{{icon}}" class="circle small" style="background:#333" alt="" onerror="this.style.display='none'">
+            <div class="max padding-left">
+              <b class="large-text">{{name}}</b>
+              <!-- temporary workaround -->
+              {{#unless sub_areas.length}}
+              <span class="small-text"> — {{exploration_percentage}}</span>
+              {{/unless}}
+            </div>
+            {{#if level}}
+            <span class="chip small round">Lv.{{level}}</span>
+            {{/if}}
+            <i>expand_more</i>
+          </nav>
+        </summary>
+
+        <div class="padding">
+          <div class="grid">
+
+            <!-- Area Exploration -->
+            {{#if area_exploration_list.length}}
+            <div class="s12 m6">
+              <article class="round border">
+                <p class="bold"><i>map</i> Sub-Areas</p>
+                <ul class="list border">
+                  {{#each area_exploration_list}}
+                  <li>
+                    <div class="max small-text" style="white-space:normal;word-break:break-word">{{name}}</div>
+                    <span class="small">{{exploration_percentage}}</span>
+                  </li>
+                  {{/each}}
+                </ul>
+              </article>
+            </div>
+            {{/if}}
+
+            <!-- Offerings -->
+            {{#if offerings.length}}
+            <div class="s12 m6">
+              <article class="round border">
+                <p class="bold"><i>volunteer_activism</i> Offerings</p>
+                <ul class="list border">
+                  {{#each offerings}}
+                  {{#if level}}
+                  <li>
+                    <img src="{{icon}}" class="circle small" alt="" onerror="this.style.display='none'">
+                    <div class="max small-text">{{name}}</div>
+                    {{#if level}}
+                    <span class="small">Lv.{{level}}</span>
+                    {{/if}}
+                  </li>
+                  {{/if}}
+                  {{/each}}
+                </ul>
+              </article>
+            </div>
+            {{/if}}
+
+            <!-- Boss List -->
+            {{#if boss_list.length}}
+            <div class="s12 m6">
+              <article class="round border">
+                <p class="bold"><i>sports_martial_arts</i> Boss Kills</p>
+                <ul class="list border">
+                  {{#each boss_list}}
+                  <li>
+                    <div class="max small-text">{{name}}</div>
+                    <span class="small">{{kill_num}}×</span>
+                  </li>
+                  {{/each}}
+                </ul>
+              </article>
+            </div>
+            {{/if}}
+
+            <!-- Natan Reputation (Natlan only) -->
+            {{#if natan_reputation}}
+            <div class="s12 m6">
+              <article class="round border">
+                <p class="bold"><i>shield</i> Tribal Reputation</p>
+                <ul class="list border">
+                  {{#each natan_reputation.tribal_list}}
+                  <li>
+                    <img src="{{icon}}" class="circle small" style="background:#333" alt="" onerror="this.style.display='none'">
+                    <div class="max small-text">{{name}}</div>
+                    <span class="small">Lv.{{level}}</span>
+                  </li>
+                  {{/each}}
+                </ul>
+              </article>
+            </div>
+            {{/if}}
+
+            <!-- Area Exploration (Sub Areas) -->
+            {{#if sub_areas.length}}
+            <div class="s12 m6">
+              <article class="round border">
+                <p class="bold"><i>map</i> Sub-Areas</p>
+                <ul class="list border">
+                  {{#each sub_areas}}
+                  <li>
+                    <div class="max small-text">{{name}}</div>
+                    <span class="small">{{exploration_percentage}}</span>
+                  </li>
+                  {{/each}}
+                </ul>
+              </article>
+            </div>
+            {{/if}}
+
+          </div>
+        </div>
+      </details>
+      {{/each}}
 
     </div>
 
