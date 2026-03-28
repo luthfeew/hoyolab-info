@@ -33,7 +33,7 @@
       <nav class="group split">
         <div class="left-round field label border">
           <input type="number" name="uid" required minlength="9" maxlength="10" aria-label="input uid">
-          <label>UID Genshin</label>
+          <label>UID</label>
         </div>
         <button type="submit" class="right-round square large">
           <i>keyboard_arrow_right</i>
@@ -41,11 +41,22 @@
       </nav>
       <progress class="htmx-indicator"></progress>
     </form>
-    <section id="content"></section>
+    <section id="content">
+      <!-- just a placeholder -->
+      <article class="round">
+        <h6>Apaan nih? (・_・ヾ</h6>
+        <p class="large-text">Masukin UID Genshin, terus klik tombolnya, nanti bakal muncul data statistik permainan kamu secara lengkap dan terperinci!</p>
+        <p class="large-text">Datanya diambil dari server HoyoLab. Jadi syaratnya adalah akun HoyoLabnya harus publik.</p>
+        <p class="large-text">Untuk saat ini hanya mendukung data Genshin Impact karena aku ngga main game lain :)</p>
+      </article>
+    </section>
   </main>
 
-  <template id="foo">
+  <footer>
+    <h6 class="center-align small"><i>code</i> with <i>favorite</i> by TahuBulat (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧</h5>
+  </footer>
 
+  <template id="foo">
 
     <!-- ======== PROFILE HEADER ======== -->
     <div class="space"></div>
@@ -484,7 +495,7 @@
               <ul class="list border">
                 {{#each ranks.defeat_rank}}
                 <li>
-                  <p class="bold small-text">Most Kills (Defeat)</p>
+                  <p class="bold small-text">Most Kills</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
                   <div class="max">{{name}}</div>
                   <span>{{value}} kills</span>
@@ -508,7 +519,7 @@
                 {{/each}}
                 {{#each ranks.energy_skill_rank}}
                 <li>
-                  <p class="bold small-text">Most Bursts (Q)</p>
+                  <p class="bold small-text">Most Bursts</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
                   <div class="max">{{name}}</div>
                   <span>{{value}}×</span>
@@ -516,7 +527,7 @@
                 {{/each}}
                 {{#each ranks.normal_skill_rank}}
                 <li>
-                  <p class="bold small-text">Most Skills (E)</p>
+                  <p class="bold small-text">Most Skills</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
                   <div class="max">{{name}}</div>
                   <span>{{value}}×</span>
@@ -616,7 +627,7 @@
         <div class="grid">
           <div class="s12 m6">
             <article class="round border">
-              <p class="bold small-text">Most Used (Reveal)</p>
+              <p class="bold small-text">Most Used</p>
               <ul class="list border">
 
                 {{#each ranks.reveal_rank}}
@@ -636,7 +647,7 @@
               <ul class="list border">
                 {{#each ranks.defeat_rank}}
                 <li>
-                  <p class="bold small-text">Most Kills (Defeat)</p>
+                  <p class="bold small-text">Most Kills</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
                   <div class="max">{{name}}</div>
                   <span>{{value}} kills</span>
@@ -660,7 +671,7 @@
                 {{/each}}
                 {{#each ranks.energy_skill_rank}}
                 <li>
-                  <p class="bold small-text">Most Bursts (Q)</p>
+                  <p class="bold small-text">Most Bursts</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
                   <div class="max">{{name}}</div>
                   <span>{{value}}×</span>
@@ -668,7 +679,7 @@
                 {{/each}}
                 {{#each ranks.normal_skill_rank}}
                 <li>
-                  <p class="bold small-text">Most Skills (E)</p>
+                  <p class="bold small-text">Most Skills</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
                   <div class="max">{{name}}</div>
                   <span>{{value}}×</span>
@@ -782,7 +793,7 @@
                   {{#if level}}
                   <li>
                     <img src="{{icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                    <div class="max small-text">{{name}}</div>
+                    <div class="max small-text" style="white-space:normal;word-break:break-word">{{name}}</div>
                     {{#if level}}
                     <span class="small">Lv.{{level}}</span>
                     {{/if}}
@@ -798,11 +809,11 @@
             {{#if boss_list.length}}
             <div class="s12 m6">
               <article class="round border">
-                <p class="bold"><i>sports_martial_arts</i> Boss Kills</p>
+                <p class="bold"><i>swords</i> Boss Kills</p>
                 <ul class="list border">
                   {{#each boss_list}}
                   <li>
-                    <div class="max small-text">{{name}}</div>
+                    <div class="max small-text" style="white-space:normal;word-break:break-word">{{name}}</div>
                     <span class="small">{{kill_num}}×</span>
                   </li>
                   {{/each}}
@@ -820,7 +831,7 @@
                   {{#each natan_reputation.tribal_list}}
                   <li>
                     <img src="{{icon}}" class="circle small" style="background:#333" alt="" onerror="this.style.display='none'">
-                    <div class="max small-text">{{name}}</div>
+                    <div class="max small-text" style="white-space:normal;word-break:break-word">{{name}}</div>
                     <span class="small">Lv.{{level}}</span>
                   </li>
                   {{/each}}
@@ -837,7 +848,7 @@
                 <ul class="list border">
                   {{#each sub_areas}}
                   <li>
-                    <div class="max small-text">{{name}}</div>
+                    <div class="max small-text" style="white-space:normal;word-break:break-word">{{name}}</div>
                     <span class="small">{{exploration_percentage}}</span>
                   </li>
                   {{/each}}
@@ -918,15 +929,10 @@
     </div>
 
     {{else}}
-    <article class="border error center-align">
-      <h6>info: data hoyolab orang ini ngga publik ¯\_(ツ)_/¯</h6>
+    <article class="border round error center-align">
+      <h6>yah data hoyolab orang ini ngga publik ¯\_(ツ)_/¯</h6>
     </article>
     {{/if}}
-
-    <div class="space"></div>
-    <footer>
-      <h6 class="center-align small"><i>code</i> with <i>favorite</i> by TahuBulat (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧</h5>
-    </footer>
 
   </template>
 
