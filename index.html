@@ -14,6 +14,13 @@
   <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js" integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/htmx-ext-client-side-templates@2.0.0/client-side-templates.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <style>
+    /* Custom styles */
+    .wbreak {
+      white-space: normal;
+      word-break: break-word;
+    }
+  </style>
 </head>
 
 <body hx-ext="client-side-templates">
@@ -32,6 +39,7 @@
     <form hx-get="https://extraordinary-willabella-tahubulat500-39903554.koyeb.app/genshin" hx-target="#content" hx-swap="innerHTML" handlebars-template="foo">
       <nav class="group split">
         <div class="left-round field label border">
+          <!-- <input type="number" name="uid" required minlength="9" maxlength="10" aria-label="input uid" value="809407269"> -->
           <input type="number" name="uid" required minlength="9" maxlength="10" aria-label="input uid">
           <label>UID</label>
         </div>
@@ -45,7 +53,7 @@
       <!-- just a placeholder -->
       <article class="round">
         <h6>Apaan nih? (・_・ヾ</h6>
-        <p class="large-text">Masukin UID Genshin, terus klik tombolnya, nanti bakal muncul data statistik permainan kamu secara lengkap dan terperinci!</p>
+        <p class="large-text">Masukin UID Genshin, terus klik tombolnya, nanti bakal muncul data statistik permainan secara lengkap dan terperinci!</p>
         <p class="large-text">Datanya diambil dari server HoyoLab. Jadi syaratnya adalah akun HoyoLabnya harus publik.</p>
         <p class="large-text">Untuk saat ini hanya mendukung data Genshin Impact karena aku ngga main game lain :)</p>
       </article>
@@ -53,7 +61,7 @@
   </main>
 
   <footer>
-    <h6 class="center-align small"><i>code</i> with <i>favorite</i> by TahuBulat (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧</h5>
+    <h6 class="center-align small"><i>code</i> with <i>favorite</i> by <a class="indigo-text" href="https://discord.com/users/908299109310562304" target="_blank" rel="noopener">TahuBulat</a> (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧</h5>
   </footer>
 
   <template id="foo">
@@ -245,7 +253,7 @@
                 <h6 class="small">Anemoculus</h6>
                 <p class="small-text">Mondstadt</p>
               </div>
-              <span class="chip round">{{data.stats.anemoculus_number}}</span>
+              <span>{{data.stats.anemoculus_number}}/66</span>
             </div>
           </article>
         </div>
@@ -256,7 +264,7 @@
                 <h6 class="small">Geoculus</h6>
                 <p class="small-text">Liyue</p>
               </div>
-              <span class="chip round">{{data.stats.geoculus_number}}</span>
+              <span>{{data.stats.geoculus_number}}/131</span>
             </nav>
           </article>
         </div>
@@ -267,7 +275,7 @@
                 <h6 class="small">Electroculus</h6>
                 <p class="small-text">Inazuma</p>
               </div>
-              <span class="chip round">{{data.stats.electroculus_number}}</span>
+              <span>{{data.stats.electroculus_number}}/181</span>
             </nav>
           </article>
         </div>
@@ -278,7 +286,7 @@
                 <h6 class="small">Dendroculus</h6>
                 <p class="small-text">Sumeru</p>
               </div>
-              <span class="chip round">{{data.stats.dendroculus_number}}</span>
+              <span>{{data.stats.dendroculus_number}}/271</span>
             </nav>
           </article>
         </div>
@@ -289,7 +297,7 @@
                 <h6 class="small">Hydroculus</h6>
                 <p class="small-text">Fontaine</p>
               </div>
-              <span class="chip round">{{data.stats.hydroculus_number}}</span>
+              <span>{{data.stats.hydroculus_number}}/271</span>
             </nav>
           </article>
         </div>
@@ -300,7 +308,7 @@
                 <h6 class="small">Pyroculus</h6>
                 <p class="small-text">Natlan</p>
               </div>
-              <span class="chip round">{{data.stats.pyroculus_number}}</span>
+              <span>{{data.stats.pyroculus_number}}/271</span>
             </nav>
           </article>
         </div>
@@ -311,7 +319,7 @@
                 <h6 class="small">Lunoculus</h6>
                 <p class="small-text">Nod-Krai</p>
               </div>
-              <span class="chip round">{{data.stats.moonoculus_number}}</span>
+              <span>{{data.stats.moonoculus_number}}/192</span>
             </nav>
           </article>
         </div>
@@ -497,7 +505,7 @@
                 <li>
                   <p class="bold small-text">Most Kills</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                  <div class="max">{{name}}</div>
+                  <div class="max wbreak">{{name}}</div>
                   <span>{{value}} kills</span>
                 </li>
                 {{/each}}
@@ -505,7 +513,7 @@
                 <li>
                   <p class="bold small-text">Highest Damage</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                  <div class="max">{{name}}</div>
+                  <div class="max wbreak">{{name}}</div>
                   <span>{{value}}</span>
                 </li>
                 {{/each}}
@@ -513,7 +521,7 @@
                 <li>
                   <p class="bold small-text">Damage Taken</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                  <div class="max">{{name}}</div>
+                  <div class="max wbreak">{{name}}</div>
                   <span>{{value}}</span>
                 </li>
                 {{/each}}
@@ -521,7 +529,7 @@
                 <li>
                   <p class="bold small-text">Most Bursts</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                  <div class="max">{{name}}</div>
+                  <div class="max wbreak">{{name}}</div>
                   <span>{{value}}×</span>
                 </li>
                 {{/each}}
@@ -529,7 +537,7 @@
                 <li>
                   <p class="bold small-text">Most Skills</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                  <div class="max">{{name}}</div>
+                  <div class="max wbreak">{{name}}</div>
                   <span>{{value}}×</span>
                 </li>
                 {{/each}}
@@ -649,7 +657,7 @@
                 <li>
                   <p class="bold small-text">Most Kills</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                  <div class="max">{{name}}</div>
+                  <div class="max wbreak">{{name}}</div>
                   <span>{{value}} kills</span>
                 </li>
                 {{/each}}
@@ -657,7 +665,7 @@
                 <li>
                   <p class="bold small-text">Highest Damage</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                  <div class="max">{{name}}</div>
+                  <div class="max wbreak">{{name}}</div>
                   <span>{{value}}</span>
                 </li>
                 {{/each}}
@@ -665,7 +673,7 @@
                 <li>
                   <p class="bold small-text">Damage Taken</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                  <div class="max">{{name}}</div>
+                  <div class="max wbreak">{{name}}</div>
                   <span>{{value}}</span>
                 </li>
                 {{/each}}
@@ -673,7 +681,7 @@
                 <li>
                   <p class="bold small-text">Most Bursts</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                  <div class="max">{{name}}</div>
+                  <div class="max wbreak">{{name}}</div>
                   <span>{{value}}×</span>
                 </li>
                 {{/each}}
@@ -681,7 +689,7 @@
                 <li>
                   <p class="bold small-text">Most Skills</p>
                   <img src="{{avatar_icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                  <div class="max">{{name}}</div>
+                  <div class="max wbreak">{{name}}</div>
                   <span>{{value}}×</span>
                 </li>
                 {{/each}}
@@ -774,7 +782,7 @@
                 <ul class="list border">
                   {{#each area_exploration_list}}
                   <li>
-                    <div class="max small-text" style="white-space:normal;word-break:break-word">{{name}}</div>
+                    <div class="max small-text wbreak">{{name}}</div>
                     <span class="small">{{exploration_percentage}}</span>
                   </li>
                   {{/each}}
@@ -793,7 +801,7 @@
                   {{#if level}}
                   <li>
                     <img src="{{icon}}" class="circle small" alt="" onerror="this.style.display='none'">
-                    <div class="max small-text" style="white-space:normal;word-break:break-word">{{name}}</div>
+                    <div class="max small-text wbreak">{{name}}</div>
                     {{#if level}}
                     <span class="small">Lv.{{level}}</span>
                     {{/if}}
@@ -813,7 +821,7 @@
                 <ul class="list border">
                   {{#each boss_list}}
                   <li>
-                    <div class="max small-text" style="white-space:normal;word-break:break-word">{{name}}</div>
+                    <div class="max small-text wbreak">{{name}}</div>
                     <span class="small">{{kill_num}}×</span>
                   </li>
                   {{/each}}
@@ -831,7 +839,7 @@
                   {{#each natan_reputation.tribal_list}}
                   <li>
                     <img src="{{icon}}" class="circle small" style="background:#333" alt="" onerror="this.style.display='none'">
-                    <div class="max small-text" style="white-space:normal;word-break:break-word">{{name}}</div>
+                    <div class="max small-text wbreak">{{name}}</div>
                     <span class="small">Lv.{{level}}</span>
                   </li>
                   {{/each}}
@@ -848,7 +856,7 @@
                 <ul class="list border">
                   {{#each sub_areas}}
                   <li>
-                    <div class="max small-text" style="white-space:normal;word-break:break-word">{{name}}</div>
+                    <div class="max small-text wbreak">{{name}}</div>
                     <span class="small">{{exploration_percentage}}</span>
                   </li>
                   {{/each}}
