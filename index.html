@@ -39,7 +39,6 @@
     <form hx-get="https://extraordinary-willabella-tahubulat500-39903554.koyeb.app/genshin" hx-target="#content" hx-swap="innerHTML" handlebars-template="foo">
       <nav class="group split">
         <div class="left-round field label border">
-          <!-- <input type="number" name="uid" required minlength="9" maxlength="10" aria-label="input uid" value="809407269"> -->
           <input type="number" name="uid" required minlength="9" maxlength="10" aria-label="input uid">
           <label>UID</label>
         </div>
@@ -958,6 +957,18 @@
       ui('mode', newTheme);
       icon.textContent = newTheme === 'light' ? 'light_mode' : 'dark_mode';
       localStorage.setItem('theme', newTheme);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const uidFromUrl = params.get('uid');
+
+      if (uidFromUrl) {
+        const input = document.querySelector('input[name="uid"]');
+        const form = document.querySelector('form');
+        input.value = uidFromUrl;
+        htmx.trigger(form, 'submit');
+      }
     });
   </script>
 
